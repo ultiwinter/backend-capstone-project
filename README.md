@@ -1,6 +1,6 @@
 # Little Lemon Restaurant – Backend Portfolio Project
 
-This repository contains the backend implementation for **Little Lemon Restaurant**, a portfolio project developed as part of the Meta Backend Developer curriculum. The project demonstrates clean backend architecture using **Django** and **Django REST Framework (DRF)**, combining server-rendered pages with secure RESTful APIs.
+This repository contains the backend implementation for **Little Lemon Restaurant**, a portfolio project developed as part of the Meta Backend Developer Professional Certificare. The project demonstrates clean backend architecture using **Django** and **Django REST Framework (DRF)**, combining server-rendered pages with secure RESTful APIs.
 
 ---
 
@@ -88,43 +88,107 @@ All pages are rendered using Django templates and share a common layout via `bas
 
 ---
 
-## Testing
+## Testing & API Usage with Insomnia
 
-- Django unit tests supported via `python manage.py test`
+- Django unit tests supported via `manage.py test`
 - API endpoints testable using **Insomnia** or **Postman**
+
+### 1. Obtain Authentication Token
+
+- Method: **POST**  
+- URL: `http://127.0.0.1:8000/api-token-auth/`
+- Body type: **JSON**
+```json
+{
+  "username": "reviewer",
+  "password": "thisisapassword1"
+}
+```
+- Response:
+```json
+{
+  "token": "your_token_here"
+}
+```
+Save the returned token for subsequent requests.
+
+### 2. Make an Authenticated GET Request (Retrieve Menu Item)
+
+- Method: **GET**  
+- URL: `http://127.0.0.1:8000/restaurant/menu/1`
+- In **Auth** tab:
+  - Auth Type: **Bearer Token**
+  - Token: `{your_token}`
+  - Prefix: `Token`
+
+### 3. Make an Authenticated POST Request (Create Menu Item)
+
+- Method: **POST**  
+- URL: `http://127.0.0.1:8000/restaurant/menu/`
+- In **Auth** tab:
+  - Auth Type: **Bearer Token**
+  - Token: `{your_token}`
+  - Prefix: `Token`
+- In **Body** tab:
+  - Body Type: **Form**
+  - Fields:
+    ```
+    title = {add_menu_item_title}
+    price = {add_menu_item_price}
+    inventory = {add_menu_item_inventory}
+    ```
 
 ---
 
-## Setup Instructions
+## Testing
 
-### 1. Clone the repository
+- Django unit tests supported via `python manage.py test`
+- API endpoints testable using **Insomnia**
+
+---
+
+## ⚙️ Setup Instructions
+
+You can set up the project using either **Pipenv (recommended)** or a traditional virtual environment.
+
+---
+
+### Option A: Setup Using Pipenv (Recommended)
+
+Pipenv provides dependency management and virtual environment handling in one tool.
+
+#### 1. Install Pipenv (if not already installed)
+```bash
+pip install pipenv
+```
+
+#### 2. Clone the repository
 ```bash
 git clone https://github.com/your-username/little-lemon-backend.git
 cd little-lemon-backend
 ```
 
-### 2. Create and activate virtual environment
+#### 3. Install dependencies using Pipenv
 ```bash
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+pipenv install
 ```
 
-### 3. Install dependencies
+#### 4. Activate the Pipenv shell
 ```bash
-pip install -r requirements.txt
+pipenv shell
 ```
 
-### 4. Run migrations
+#### 5. Run migrations
 ```bash
 python manage.py migrate
 ```
 
-### 5. Create superuser
+#### 6. Create superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. Run development server
+#### 7. Run development server
 ```bash
 python manage.py runserver
 ```
