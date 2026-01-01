@@ -149,11 +149,11 @@ Save the returned token for subsequent requests.
 
 ## ⚙️ Setup Instructions
 
-You can set up the project using either **Pipenv (recommended)** or a traditional virtual environment.
+You can set up the project using either **Pipenv (recommended)** or a traditional virtual/global environment.
 
 ---
 
-### Option A: Setup Using Pipenv (Recommended)
+### Setup Using Pipenv (Recommended)
 
 Pipenv provides dependency management and virtual environment handling in one tool.
 
