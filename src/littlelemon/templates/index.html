@@ -1,12 +1,14 @@
 <!--add this template tag-->
-{% load static %}
-<img src="{% static 'img/logo.png' %}">
+<!-- # Step 2 Django Static Routes - Step 9 Add static tag in index.html -->
+
 
 <html>
    <head>
       <title>Capstone Project</title>
    </head>
    <body>
-      <h1 style="text-align:center;">Welcome To LittleLemon Restaurant</h1>
+      <h1 style="text-align:center;">Welcome To Little Lemon Restaurant</h1>
+      {% load static %}
+      <img src="{% static 'img/littlelemon.png' %}">
    </body>
 </html>

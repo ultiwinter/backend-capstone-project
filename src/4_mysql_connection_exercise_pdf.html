@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting up the MySQL Connection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .step-box {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        
+        .note-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .important-box {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .file-label {
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            .print-button {
+                display: none;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .step-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">Download as PDF</button>
+    
+    <h1>Exercise: Setting up the MySQL Connection</h1>
+    
+    <div class="step-box">
+        <div class="step-number">Step 1</div>
+        <h3 style="margin-top: 0;">Install and Start MySQL Server</h3>
+        
+        <p>To install MySQL server, download the installer appropriate for your operating system from <strong>https://www.mysql.com/downloads/</strong>.</p>
+        
+        <p>Start the MySQL server. It runs on port number <strong>3306</strong> by default.</p>
+        
+        <p>To confirm it is running, start the MySQL command line client with the following command:</p>
+        
+        <pre>mysql -u root -p</pre>
+        
+        <div class="note-box">
+            <strong>Note:</strong> You will be prompted to enter the root password you set during MySQL installation. If you didn't set a password, just press Enter.
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 2</div>
+        <h3 style="margin-top: 0;">Install MySQL DB API Driver</h3>
+        
+        <p>Activate the Python virtual environment you are using for this project, and open VS Code in it. Follow the instructions from the earlier exercise.</p>
+        
+        <p>Install the MySQL DB API Driver, <code>mysqlclient</code> from the CMD terminal in VS Code, use PIP utility with following command:</p>
+        
+        <pre>pip3 install mysqlclient</pre>
+        
+        <div class="important-box">
+            <strong>Important:</strong> On Windows, you may need to install Microsoft Visual C++ Build Tools if you encounter installation errors. Alternatively, you can use <code>pip3 install pymysql</code> as an alternative driver.
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 3</div>
+        <h3 style="margin-top: 0;">Configure Database Settings</h3>
+        
+        <p>Open the <strong>settings.py</strong> file in a VS Code window. Locate the DATABASES section. In place of the existing SQLite configuration, paste the following configuration for MySQL.</p>
+        
+        <div class="file-label">settings.py</div>
+        <pre>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'LittleLemon',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
+}</pre>
+        
+        <div class="note-box">
+            <strong>Note:</strong> Make sure to replace the empty PASSWORD string with your MySQL root password if you set one during installation.
+        </div>
+        
+        <p>Before running migrations, you need to create the database. Connect to MySQL and run:</p>
+        
+        <pre>mysql -u root -p
+CREATE DATABASE LittleLemon;
+EXIT;</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 4</div>
+        <h3 style="margin-top: 0;">Install MySQL Extension</h3>
+        
+        <p>Install MySQL extension from VS Code extension marketplace.</p>
+        
+        <ol>
+            <li>Open VS Code Extensions panel (Ctrl+Shift+X on Windows/Linux or Cmd+Shift+X on Mac)</li>
+            <li>Search for "MySQL" by Jun Han</li>
+            <li>Click Install</li>
+        </ol>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 5</div>
+        <h3 style="margin-top: 0;">Run Database Migrations</h3>
+        
+        <p>From the CMD terminal on Windows (Command palette in Mac OS) inside VS Code, run the migrate command.</p>
+        
+        <pre>python manage.py migrate</pre>
+        
+        <p>The table structure required for the INSTALLED_APPS will be created in the MySQL database named LittleLemon.</p>
+        
+        <div class="note-box">
+            <strong>Expected Output:</strong> You should see messages indicating that migrations are being applied, such as:
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li>Applying contenttypes.0001_initial... OK</li>
+                <li>Applying auth.0001_initial... OK</li>
+                <li>Applying admin.0001_initial... OK</li>
+                <li>And more...</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 6</div>
+        <h3 style="margin-top: 0;">Connect to Database in VS Code</h3>
+        
+        <p>Note that the MySQL tab appears in the file explorer bar of VS Code.</p>
+        
+        <ol>
+            <li>Click on the <strong>+</strong> button and connect to the database</li>
+            <li>Enter <strong>localhost</strong> as the domain name</li>
+            <li>Enter your MySQL username (typically <strong>root</strong>)</li>
+            <li>Enter your password (or leave blank if you didn't set one)</li>
+        </ol>
+        
+        <p>Now <strong>localhost</strong> appears in the MySQL tab.</p>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 7</div>
+        <h3 style="margin-top: 0;">Verify Database Tables</h3>
+        
+        <p>Expand the <strong>localhost</strong> to find your database – <strong>LittleLemon</strong>. Double click it to show the tables created by the migrate command.</p>
+        
+        <p>You should see tables such as:</p>
+        <ul>
+            <li>auth_user</li>
+            <li>auth_group</li>
+            <li>django_content_type</li>
+            <li>django_migrations</li>
+            <li>django_session</li>
+            <li>And others created by Django's default apps</li>
+        </ul>
+    </div>
+    
+    <div class="conclusion-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Conclusion</h2>
+        <p style="margin-bottom: 0;">In this exercise, you configured the Django project to use MySQL as the back-end. You also ran migration to create the table structure for the pre-installed apps in the project.</p>
+    </div>
+</body>
+</html>

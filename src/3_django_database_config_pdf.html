@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Database Configuration and Models</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .intro-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        
+        .note-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .file-label {
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            .print-button {
+                display: none;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .info-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">Download as PDF</button>
+    
+    <h1>Recap: Django Database Configuration and Models</h1>
+    
+    <div class="intro-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Introduction</h2>
+        <p>Django employs the MVT architecture, wherein the model represents the application's data layer.</p>
+        <p>The model is at the core of Django's Object Relation Mapping (Django ORM).</p>
+        <p>It is the single, definitive source of information about your data, where each model maps to a single database table.</p>
+        <p>A model is a Python class that subclasses the Model class found in the django.db.models module.</p>
+        <p>Generally, the user-defined model has one or more class attributes. Just as the model class maps to a database table, the class attribute is mapped to a column in the table.</p>
+        <p>Django provides a mechanism to perform CRUD operations using an object-oriented QuerySet API when the model gets mapped to a table.</p>
+        <p style="margin-bottom: 0;">This process frees the developer from executing raw SQL queries.</p>
+    </div>
+    
+    <h2>Database Configuration</h2>
+    
+    <p>You can choose from various databases supported by Django. Officially supported databases are:</p>
+    
+    <ul>
+        <li>PostgreSQL</li>
+        <li>MariaDB</li>
+        <li>MySQL</li>
+        <li>Oracle</li>
+        <li>SQLite</li>
+    </ul>
+    
+    <p>In addition, you can use other types of databases with the help of third-party database back end modules.</p>
+    
+    <p>The choice of database back end is registered in the Django project's settings.py module.</p>
+    
+    <p>The DATABASES variable in this module sets the back end to be used, the name of the database, and the credentials for accessing the database if required.</p>
+    
+    <p>The Django project set up with the startproject command is configured to use the SQLite database by default. The DATABASES definition in the settings file reads like the following:</p>
+    
+    <div class="file-label">settings.py</div>
+    <pre>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}</pre>
+    
+    <p>After you create the project, run the migrate command:</p>
+    
+    <pre>python3 manage.py migrate</pre>
+    
+    <p>The tables required for the pre-installed apps are created in the database, located in the BASE_DIR by default. You can use an SQLite viewer to confirm this.</p>
+    
+    <p>Django places app-specific models in the models.py file in the app package folder.</p>
+    
+    <p>To create the mapped table in the database, run the commands makemigrations and then migrate.</p>
+    
+    <h2>Using Another Database</h2>
+    
+    <p>To use another type of database instead of the default SQLite, you need to change the DATABASES configuration in the settings.py file.</p>
+    
+    <p>Most of the relational database types are server-based. Hence, Django must know the host and port on which the database is running and the user's credentials, such as username and password.</p>
+    
+    <p>You will also need the DBAPI-compatible database driver for your intended database.</p>
+    
+    <div class="info-box">
+        <h3>Using the MySQL Database</h3>
+        
+        <p>Suppose you intend to use a MySQL database as the back end for your Django application. In that case, you must first install the mysqlclient driver with pip.</p>
+        
+        <pre>pip3 install mysqlclient</pre>
+        
+        <p>Then, replace the DATABASES configuration with the following block of code:</p>
+        
+        <div class="file-label">settings.py</div>
+        <pre>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_database',
+        'USER': 'root',
+        'PASSWORD': 'your_password',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
+}</pre>
+    </div>
+    
+    <h2>Other Important Configuration Settings</h2>
+    
+    <div class="info-box">
+        <p><strong>CONN_MAX_AGE:</strong> This parameter defines the maximum lifetime of a connection. The default value is 0, which preserves the historical behavior of closing the database connection at the end of each request.</p>
+        
+        <p>To enable persistent connections, set CONN_MAX_AGE to a positive integer of seconds. For unlimited persistent connections, you can set it to None.</p>
+        
+        <p><strong>AUTOCOMMIT:</strong> Default: True. Set this to False to disable Django's transaction management and implement your own.</p>
+        
+        <p><strong>OPTIONS:</strong> Default: {} (Empty dictionary). Extra parameters to use when connecting to the database. Available parameters vary depending on your database backend.</p>
+    </div>
+    
+    <p>For MySQL, you can specify the connection parameters in the options using the following code:</p>
+    
+    <div class="file-label">settings.py</div>
+    <pre>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': '/path/to/my.cnf',
+        },
+    }
+}</pre>
+    
+    <p>And the <code>my.cnf</code> file would contain:</p>
+    
+    <pre>[client]
+database = my_database
+user = myuser
+password = mypassword
+default-character-set = utf8</pre>
+    
+    <div class="note-box">
+        <strong>Note:</strong> SET sql_mode = 'STRICT_TRANS_TABLES', which handles invalid or missing values from being stored in the database by INSERT and UPDATE statements.
+    </div>
+    
+    <h2>Using Multiple Databases</h2>
+    
+    <p>You can also configure your Django application to use more than one database. There must be a default database and then set the configuration for the other. For example:</p>
+    
+    <div class="file-label">settings.py</div>
+    <pre>DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'mydb': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_database',
+        'USER': 'root',
+        'PASSWORD': 'your_password',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}</pre>
+    
+    <div class="conclusion-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Conclusion</h2>
+        <p style="margin-bottom: 0;">In this Reading, you revised configuring a database in Django and how to translate the model structure to the database table.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Unit Tests</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .overview-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .scenario-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step-box {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        
+        .tip-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .note-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .file-label {
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        @media print {
+            .print-button {
+                display: none;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .step-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">Download as PDF</button>
+    
+    <h1>Adding Unit Tests</h1>
+    
+    <div class="overview-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Overview</h2>
+        <p>Testing is the process of validating the result of an operation against an expected output. Django's test framework internally uses Python's unit test package.</p>
+        <p style="margin-bottom: 0;">In this exercise, you will write the unit tests for satisfactory behavior of models and the views you have defined in the Menu API.</p>
+    </div>
+    
+    <div class="scenario-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Scenario</h2>
+        <p style="margin-bottom: 0;">In your restaurant app, you already have built the Menu API and Booking API. You will write the model test in test_models.py and view test in test_views.py files.</p>
+    </div>
+    
+    <h2>Steps</h2>
+    
+    <div class="step-box">
+        <div class="step-number">Step 1</div>
+        <h3 style="margin-top: 0;">Create Tests Folder</h3>
+        
+        <p>When you create the app, an empty <strong>test.py</strong> file is created in the app package folder. Go ahead and delete it.</p>
+        
+        <pre># Delete the existing test.py file
+rm restaurant/tests.py
+
+# Or on Windows
+del restaurant\tests.py</pre>
+        
+        <p>In the root folder of your Django project (the one that contains manage.py), create a new folder with the name <strong>tests</strong>.</p>
+        
+        <pre># Create the tests directory
+mkdir tests
+
+# Create an __init__.py file to make it a Python package
+touch tests/__init__.py
+
+# Or on Windows
+type nul > tests\__init__.py</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 2</div>
+        <h3 style="margin-top: 0;">Add String Representation to Menu Model</h3>
+        
+        <p>Open the definition of the Menu model class. Add a <code>__str__()</code> method that returns a string representation of the model instance.</p>
+        
+        <div class="file-label">restaurant/models.py</div>
+        <pre># Add the following method in Menu class
+class Menu(models.Model):
+    title = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    inventory = models.IntegerField()
+    
+    def __str__(self):
+        return f'{self.title} : {str(self.price)}'</pre>
+        
+        <div class="tip-box">
+            <strong>Tip:</strong> As you have made changes to the model, you must run the migrations to sync the changes.
+            <pre style="margin-top: 10px; margin-bottom: 0;">python manage.py makemigrations
+python manage.py migrate</pre>
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 3</div>
+        <h3 style="margin-top: 0;">Create Model Test</h3>
+        
+        <p>Create a new file in the tests folder named <strong>test_models.py</strong>.</p>
+        
+        <ol>
+            <li>Import the TestCase class from the django.test module</li>
+            <li>Use it as a base and declare a test class, for example, MenuTest</li>
+            <li>Define an instance method that adds a new instance of the Menu model</li>
+            <li>Call the <code>assertEqual()</code> method of the test class to compare the string representation of the newly added object with the anticipated value</li>
+        </ol>
+        
+        <p>For example:</p>
+        
+        <div class="file-label">tests/test_models.py</div>
+        <pre>from django.test import TestCase
+from restaurant.models import Menu
+
+# TestCase class
+class MenuTest(TestCase):
+    def test_get_item(self):
+        item = Menu.objects.create(title="IceCream", price=80, inventory=100)
+        self.assertEqual(str(item), "IceCream : 80")</pre>
+        
+        <div class="note-box">
+            <strong>Note:</strong> The import path should be <code>from restaurant.models import Menu</code> (assuming your model is named Menu) rather than MenuItem as shown in the example.
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 4</div>
+        <h3 style="margin-top: 0;">Run Model Test</h3>
+        
+        <p>Open a command terminal in VS Code. While in the project container directory, run the test with the following command:</p>
+        
+        <pre>python manage.py test</pre>
+        
+        <p>Check the result of the test if it returns as OK.</p>
+        
+        <div class="note-box">
+            <strong>Expected Output:</strong>
+            <pre style="margin-top: 10px; margin-bottom: 0;">Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+Destroying test database for alias 'default'...</pre>
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 5</div>
+        <h3 style="margin-top: 0;">Create View Test</h3>
+        
+        <p>Open the <strong>test_views.py</strong> file in tests folder.</p>
+        
+        <ol>
+            <li>Write a MenuViewTest class that subclasses the TestCase class</li>
+            <li>Use the <code>setUp()</code> method to add a few test instances of the Menu model</li>
+            <li>Add another <code>test_getall()</code> instance method to retrieve all the Menu objects added for the test purpose</li>
+            <li>The retrieved objects must be serialized, so make sure the method runs assertions to check if the serialized data equals the response</li>
+        </ol>
+        
+        <div class="file-label">tests/test_views.py</div>
+        <pre>from django.test import TestCase
+from restaurant.models import Menu
+from restaurant.serializers import MenuSerializer
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIClient
+
+class MenuViewTest(TestCase):
+    def setUp(self):
+        # Add test instances
+        Menu.objects.create(title="Pizza", price=12.99, inventory=50)
+        Menu.objects.create(title="Burger", price=8.99, inventory=100)
+        Menu.objects.create(title="Pasta", price=10.99, inventory=75)
+    
+    def test_getall(self):
+        # Retrieve all Menu objects
+        client = APIClient()
+        response = client.get(reverse('menu-list'))  # Adjust URL name as needed
+        
+        # Serialize the data
+        menus = Menu.objects.all()
+        serializer = MenuSerializer(menus, many=True)
+        
+        # Run assertions
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, serializer.data)</pre>
+        
+        <div class="note-box">
+            <strong>Note:</strong> Make sure to adjust the URL name in <code>reverse('menu-list')</code> to match your actual URL configuration. You may need to use the full path like <code>'/api/menu/'</code> instead.
+        </div>
+        
+        <p>Run the test again with the command and verify if the test returns as OK:</p>
+        
+        <pre>python manage.py test</pre>
+        
+        <div class="note-box">
+            <strong>Expected Output:</strong>
+            <pre style="margin-top: 10px; margin-bottom: 0;">Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.050s
+
+OK
+Destroying test database for alias 'default'...</pre>
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <h3>Additional Testing Tips</h3>
+        
+        <p>Here are some additional testing scenarios you might want to add:</p>
+        
+        <div class="file-label">Example: Additional Tests</div>
+        <pre># Test creating a new menu item via API
+def test_create_menu_item(self):
+    client = APIClient()
+    data = {"title": "Salad", "price": 6.99, "inventory": 30}
+    response = client.post(reverse('menu-list'), data, format='json')
+    
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    self.assertEqual(Menu.objects.count(), 4)  # 3 from setUp + 1 new
+
+# Test retrieving a single menu item
+def test_get_single_item(self):
+    client = APIClient()
+    item = Menu.objects.get(title="Pizza")
+    response = client.get(reverse('menu-detail', kwargs={'pk': item.id}))
+    
+    serializer = MenuSerializer(item)
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(response.data, serializer.data)</pre>
+    </div>
+    
+    <div class="conclusion-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Conclusion</h2>
+        <p style="margin-bottom: 0;">In this exercise, you created and ran the unit tests to test the model and view for the Menu API.</p>
+    </div>
+</body>
+</html>

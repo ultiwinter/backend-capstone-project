@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise: Set up the Table Booking API</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        code, pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            padding: 2px 5px;
+        }
+        pre {
+            padding: 12px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .step {
+            margin-top: 25px;
+        }
+        .tip {
+            background-color: #eef6ff;
+            border-left: 4px solid #2a7ae2;
+            padding: 10px 15px;
+            margin: 20px 0;
+        }
+        .conclusion {
+            margin-top: 40px;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Exercise: Set up the Table Booking API</h1>
+
+<h2>Overview</h2>
+<p>
+So far, you have built a Menu API in the Restaurant app of your Django project named
+<strong>LittleLemon</strong>.
+</p>
+<p>
+In this exercise, you will add a <strong>Table Booking API</strong> in the restaurant app.
+The booking model is already declared and migrated.
+</p>
+
+<h2>Scenario</h2>
+<p>
+While building the table booking API, you will define a class-based view using
+Django REST Framework’s <code>ModelViewSet</code> class. The view class will be named
+<code>BookingViewSet</code>.
+</p>
+<p>
+You will also use the <code>DefaultRouter</code> class to register the URL routes.
+</p>
+
+<h2>Steps</h2>
+
+<div class="step">
+    <h3>Step 1</h3>
+    <p>
+        Open the project in VS Code. Ensure that <code>rest_framework</code> is added
+        to the <code>INSTALLED_APPS</code> list.
+    </p>
+</div>
+
+<div class="step">
+    <h3>Step 2</h3>
+    <p>
+        In the <code>serializers.py</code> file present in the app folder, declare the
+        <code>BookingSerializer</code> class.
+    </p>
+    <p>
+        Use <code>ModelSerializer</code> as its base. Set the <code>model</code>
+        attribute to <code>Booking</code>, and <code>fields</code> to <code>__all__</code>.
+    </p>
+    <pre><code>from rest_framework import serializers
+from .models import Booking
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = '__all__'</code></pre>
+</div>
+
+<div class="step">
+    <h3>Step 3</h3>
+    <p>
+        In the app’s <code>views.py</code> module, declare the
+        <code>BookingViewSet</code> class, inheriting from
+        <code>rest_framework.viewsets.ModelViewSet</code>.
+    </p>
+    <p>
+        Fetch all objects from the <code>Booking</code> model and set the
+        <code>serializer_class</code> attribute to <code>BookingSerializer</code>.
+    </p>
+    <pre><code>from rest_framework import viewsets
+from .models import Booking
+from .serializers import BookingSerializer
+
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer</code></pre>
+</div>
+
+<div class="step">
+    <h3>Step 4</h3>
+    <p>
+        Open the <code>urls.py</code> file in the <strong>LittleLemon project package</strong>
+        (not the restaurant app folder).
+    </p>
+    <p>
+        Import <code>DefaultRouter</code> from <code>rest_framework.routers</code>.
+        Register the <code>BookingViewSet</code> with the route <code>tables</code>.
+    </p>
+    <pre><code>from rest_framework.routers import DefaultRouter
+from restaurant import views
+
+router = DefaultRouter()
+router.register(r'tables', views.BookingViewSet)
+
+urlpatterns = [
+    path('restaurant/booking/', include(router.urls)),
+]</code></pre>
+</div>
+
+<div class="step">
+    <h3>Step 5</h3>
+    <p>
+        Visit the browsable API URL:
+        <br>
+        <code>http://localhost:8000/restaurant/booking/tables</code>
+    </p>
+    <p>
+        You can perform table booking operations directly from the browser window.
+    </p>
+</div>
+
+<div class="tip">
+    <strong>Tip:</strong><br>
+    To declare a ViewSet class, you can use the following pattern:
+    <pre><code>class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]</code></pre>
+</div>
+
+<h2>Conclusion</h2>
+<p class="conclusion">
+In this exercise session, you built a Table Booking API using Django REST Framework.
+</p>
+
+<footer>
+    Little Lemon Restaurant App - Django REST Framework Exercise
+</footer>
+
+</body>
+</html>

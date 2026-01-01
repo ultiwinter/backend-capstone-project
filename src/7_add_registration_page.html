@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Exercise: Add the Registration Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #bdc3c7;
+        }
+        code {
+            font-family: Consolas, Monaco, monospace;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .note {
+            background-color: #fffacd;
+            padding: 10px;
+            border-left: 4px solid #ffeb3b;
+            margin: 20px 0;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+        @media print {
+            body { background-color: white; margin: 20px; }
+            pre { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Exercise: Add the Registration Page</h1>
+    
+    <h2>Overview</h2>
+    <p>So far, you have built the Menu API and Table booking API in your app.</p>
+    <p>In this exercise, you will add the feature of registering a new user in your Django project.</p>
+    
+    <h2>Scenario</h2>
+    <p>The objective of this exercise is to be able to add a new user, and modify the existing user's credentials from within the app instead of the admin interface.</p>
+    <p>You will use the <strong>Djoser</strong> authentication library. Using the views defined in this library, you can easily implement registration, login and logout actions.</p>
+    
+    <h2>Steps</h2>
+    
+    <h3>Step 1</h3>
+    <p>Install the djoser library in the current Django environment with PIP.</p>
+    <div class="note">Note: You should already have Django REST framework installed.</div>
+    
+    <h3>Step 2</h3>
+    <p>Add the code 'djoser' to the INSTALLED_APPS list in the settings.py file. Ensure that it is placed after the 'rest_framework' app in the list.</p>
+    
+    <h3>Step 3</h3>
+    <p>Add a new section in the settings.py file to set the DJOSER variable.</p>
+    <pre><code># add the following line
+DJOSER = {"USER_ID_FIELD": "username"}</code></pre>
+    
+    <h3>Step 4</h3>
+    <p>Make sure that the TokenAuthentication and SessionAuthentication classes are added to the DEFAULT_AUTHENTICATION_CLASSES section in the REST_FRAMEWORK setting.</p>
+    
+    <h3>Step 5</h3>
+    <p>Enable djoser endpoints by adding the following URL routes in the project's URL patterns.</p>
+    <pre><code># add following lines to update urlpatterns list
+path('auth/', include('djoser.urls')),
+path('auth/', include('djoser.urls.authtoken'))</code></pre>
+    
+    <h3>Step 6</h3>
+    <p>Run the migrations. Start the server and Login to the admin site with the superuser username and password. You should notice the Tokens section on the dashboard.</p>
+    
+    <h3>Step 7</h3>
+    <p>Visit the Browsable API URL User List – Django REST framework to get the list of users already registered.</p>
+    
+    <h3>Step 8</h3>
+    <p>Next you must register new user. To add a new user, use the form and submit a POST request.</p>
+    
+    <h3>Step 9</h3>
+    <p>To login, visit the djoser generated URL <code>http://127.0.0.1:8000/auth/token/login/</code>.</p>
+    <p>Enter the username and password to obtain the token.</p>
+    
+    <h3>Step 10</h3>
+    <p>To Logout, enter the URL <code>http://127.0.0.1:8000/auth/token/logout/</code> with a POST method to logout the user.</p>
+    
+    <h2>Conclusion</h2>
+    <p>In this exercise, you used the djoser library to implement registration, login, and logout features.</p>
+    
+    <footer>
+        <p>Generated on December 31, 2025</p>
+    </footer>
+</body>
+</html>

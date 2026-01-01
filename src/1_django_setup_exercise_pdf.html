@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting up the Django Project</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.7;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 18px;
+            background-color: #ecf0f1;
+            padding: 10px 12px;
+            border-radius: 4px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .scenario-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step-box {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        
+        .tip-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .note-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            .print-button {
+                display: none;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .step-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">Download as PDF</button>
+    
+    <h1>Exercise: Setting up the Django Project</h1>
+    
+    <h2>Overview</h2>
+    <p>In this Capstone project course, you are going to build REST APIs using Django and Django REST Framework. In this exercise, you will build a Django project for the Little Lemon restaurant.</p>
+    
+    <div class="scenario-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Scenario</h2>
+        <p style="margin-bottom: 0;">The owners of the Little Lemon restaurant have hired you to build two APIs. One API to order food using the Menu API. You need to build the Table booking API to facilitate reserving a table for dining in the restaurant on a specific date and for a certain number of people.</p>
+    </div>
+    
+    <h2>Steps</h2>
+    
+    <div class="step-box">
+        <div class="step-number">Step 1</div>
+        <p>If your computer doesn't already have Python installed on it, download and install from the link: <strong>https://www.python.org/downloads/</strong>.</p>
+        <div class="tip-box">
+            <strong>Tip:</strong> Make sure to choose the installer for your OS and architecture.
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 2</div>
+        <p>You will use VS Code for developing this Capstone project. If not already available locally, install from the link: <strong>https://code.visualstudio.com/Download</strong>.</p>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 3</div>
+        <p>Create a Python virtual environment, activate it and install Django in it.</p>
+        
+        <p><strong>Windows commands:</strong></p>
+        <pre>python -m venv littlelemon-venv
+littlelemon-venv\Scripts\activate
+pip install django
+pip install djangorestframework</pre>
+        
+        <div class="note-box">
+            <strong>Note:</strong> The macOS commands to activate virtual environment and install Django
+        </div>
+        
+        <p><strong>macOS/Linux commands:</strong></p>
+        <pre>python3 -m venv littlelemon-venv
+source littlelemon-venv/bin/activate
+pip install django
+pip install djangorestframework</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 4</div>
+        <p>Open VS code from the workspace directory</p>
+        <pre>code .</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 5</div>
+        <p>From VS Code extension marketplace, install the Python extension.</p>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 6</div>
+        <p>Press <code>ctrl+shift+p</code> and select Python interpreter. Choose the interpreter in the virtual environment path.</p>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 7</div>
+        <p>Open a new CMD terminal in VS Code. Use the startproject command of django-admin utility.</p>
+        <pre>django-admin startproject littlelemon .</pre>
+        <div class="note-box">
+            <strong>Note:</strong> If the Powershell terminal opens by default, choose Command Prompt from the drop down
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 8</div>
+        <p>Change the current directory to littlelemon and create a djangoapp with the name restaurant.</p>
+        <pre>python manage.py startapp restaurant</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 9</div>
+        <p>Open the settings.py file from the littlelemon project package in a new VS Code window. Add the restaurant app to the INSTALLED_APPS list.</p>
+        <pre>INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'restaurant',
+]</pre>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 10</div>
+        <p>From the terminal, start the Django development server with following command:</p>
+        <pre>python manage.py runserver</pre>
+        <div class="tip-box">
+            <strong>Tip:</strong> It's safe to ignore the migration related warnings for now.
+        </div>
+    </div>
+    
+    <div class="step-box">
+        <div class="step-number">Step 11</div>
+        <p>Open the browser window and enter <strong>http://localhost:8000/</strong> URL. You should get the page showing the successful installation of Django project.</p>
+    </div>
+    
+    <div class="conclusion-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Conclusion</h2>
+        <p style="margin-bottom: 0;">You have installed Django framework on your computer, and successfully created a Django project.</p>
+    </div>
+</body>
+</html>

@@ -17,7 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework import routers # step 6 Set up table booking API - Step 4 create router for BookingViewSet
+from restaurant import views # step 6 Set up table booking API - Step 4 create router for BookingViewSet
+
+# step 6 Set up table booking API - Step 4 create router for BookingViewSet
+router = routers.DefaultRouter()
+router.register(r'tables', views.BookingViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('restaurant/', include('restaurant.urls')),
+    path('restaurant/', include('restaurant.urls')), # Step 2 Django Static Routes - Step 6 add URL route for restaurant app
+    path('booking/', include(router.urls)), # step 6 Set up table booking API - Step 4 create router for BookingViewSet
+    path('auth/', include('djoser.urls')), # step 7 add registration page - Step 5 Enable djoser endpoints
+    path('auth/', include('djoser.urls.authtoken')), # step 7 add registration page - Step 5 Enable djoser endpoints
+    
 ]

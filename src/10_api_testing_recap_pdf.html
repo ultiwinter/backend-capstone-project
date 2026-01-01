@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recap: Testing your API</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #3498db;
+            padding-left: 12px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .intro-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .prerequisites-box {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+        
+        .note-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .tip-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .panel-description {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .conclusion-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            .print-button {
+                display: none;
+            }
+            
+            body {
+                padding: 20px;
+            }
+            
+            .info-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">Download as PDF</button>
+    
+    <h1>Recap: Testing Your API</h1>
+    
+    <div class="intro-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Introduction</h2>
+        <p>Before releasing the API to the end user, it is important that the developer test the API endpoints to check if the desired responses are obtained.</p>
+        <p style="margin-bottom: 0;">There are various API testing tools available, both for commercial use and as open-source apps. Insomnia is a free-to-use tool for testing the REST API performance.</p>
+    </div>
+    
+    <div class="prerequisites-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Prerequisites</h2>
+        <ul style="margin-bottom: 0;">
+            <li>Install Django and the Django REST Framework in the current Python environment</li>
+            <li>Create a Django project named LittleLemon using the django-admin command</li>
+            <li>Inside the Django project, create a Django app with the name LittleLemonAPI</li>
+            <li>Add the code <code>'rest_framework'</code> and <code>'LittleLemonAPI'</code> to the INSTALLED_APPS list inside the settings.py file</li>
+            <li>The views for the Menu API are defined, and its routes are configured</li>
+        </ul>
+    </div>
+    
+    <h2>Install Insomnia</h2>
+    
+    <p>Insomnia is available as a browser extension for most of the popular browsers. However, it has limited functionality as compared to the desktop application. Hence, you should download and install Insomnia from <strong>https://insomnia.rest/download</strong>.</p>
+    
+    <div class="step-box">
+        <h3 style="margin-top: 0;">Launching Insomnia</h3>
+        <p>Launch the Insomnia app. You'll find three options in the top menu: <strong>Design</strong>, <strong>Debug</strong>, and <strong>Test</strong>. Make sure that the <strong>Debug</strong> option is active.</p>
+        <ul style="margin-bottom: 0;">
+            <li><strong>Design window:</strong> Used to design API specification documents</li>
+            <li><strong>Test window:</strong> Used to write unit tests</li>
+            <li><strong>Debug window:</strong> Used to visit the endpoints of your API and test the responses</li>
+        </ul>
+    </div>
+    
+    <div class="note-box">
+        <strong>Important:</strong> Make sure that your Django application is running before testing with Insomnia.
+        <pre style="margin-top: 10px; margin-bottom: 0;">python manage.py runserver</pre>
+    </div>
+    
+    <h2>Understanding the Insomnia Interface</h2>
+    
+    <p>The Insomnia interface is arranged in three panels:</p>
+    
+    <div class="panel-description">
+        <strong>Left Panel:</strong> Shows the requests issued so far. You can organize them into collections and folders for better management.
+    </div>
+    
+    <div class="panel-description">
+        <strong>Middle Panel:</strong> Where you enter various parameters such as:
+        <ul>
+            <li>Body parameters (JSON, Form Data, etc.)</li>
+            <li>Query parameters</li>
+            <li>Headers</li>
+            <li>Authentication</li>
+        </ul>
+    </div>
+    
+    <div class="panel-description">
+        <strong>Right Panel:</strong> Renders the responses from the API, including:
+        <ul>
+            <li>Response body</li>
+            <li>Status code</li>
+            <li>Response headers</li>
+            <li>Response time</li>
+        </ul>
+    </div>
+    
+    <p>Above the middle panel, you have:</p>
+    <ul>
+        <li>A <strong>drop-down menu</strong> to choose the type of HTTP request (GET, POST, PUT, DELETE, PATCH, etc.)</li>
+        <li>A <strong>textbox</strong> to enter the URL</li>
+    </ul>
+    
+    <p>The top of the right panel displays the response's status code.</p>
+    
+    <h2>Testing API Endpoints</h2>
+    
+    <div class="info-box">
+        <h3>Testing GET Request (Retrieve Single Item)</h3>
+        
+        <p>You have defined the <code>SingleMenuItemView</code> class that handles GET, PUT and DELETE requests for a given ID.</p>
+        
+        <p>To test the functionality of retrieving a single menu item:</p>
+        <ol>
+            <li>Select <strong>GET</strong> from the HTTP method dropdown</li>
+            <li>Enter the URL with the item's ID: <code>http://127.0.0.1:8000/api/menu-items/1</code></li>
+            <li>Click <strong>Send</strong></li>
+        </ol>
+        
+        <p>The response panel shows the details with <strong>200 OK</strong> status code on top.</p>
+        
+        <pre># Example Response
+{
+    "id": 1,
+    "title": "Pizza",
+    "price": 12.99,
+    "inventory": 50
+}</pre>
+    </div>
+    
+    <div class="info-box">
+        <h3>Testing POST Request (Create Item)</h3>
+        
+        <p>The <code>SingleMenuItemView</code> also performs the POST request operations.</p>
+        
+        <ol>
+            <li>Choose the <strong>POST</strong> option from the dropdown</li>
+            <li>Enter the URL: <code>http://127.0.0.1:8000/api/menu-items</code></li>
+            <li>In the middle panel, select the <strong>Body</strong> tab</li>
+            <li>Choose <strong>JSON</strong> format</li>
+            <li>Enter the values for the model fields:</li>
+        </ol>
+        
+        <pre>{
+    "title": "Burger",
+    "price": 8.99,
+    "inventory": 100
+}</pre>
+        
+        <p>On sending the request, a new instance is added to the model. You'll receive a <strong>201 Created</strong> status code.</p>
+        
+        <p>You can confirm that a new instance is created by visiting the GET endpoint again.</p>
+    </div>
+    
+    <div class="info-box">
+        <h3>Testing PUT Request (Update Item)</h3>
+        
+        <ol>
+            <li>Select <strong>PUT</strong> from the HTTP method dropdown</li>
+            <li>Enter the URL with the item's ID: <code>http://127.0.0.1:8000/api/menu-items/1</code></li>
+            <li>In the Body tab, provide the updated data in JSON format:</li>
+        </ol>
+        
+        <pre>{
+    "title": "Updated Pizza",
+    "price": 14.99,
+    "inventory": 45
+}</pre>
+        
+        <p>You'll receive a <strong>200 OK</strong> status code with the updated data in the response.</p>
+    </div>
+    
+    <div class="info-box">
+        <h3>Testing DELETE Request (Delete Item)</h3>
+        
+        <ol>
+            <li>Select <strong>DELETE</strong> from the HTTP method dropdown</li>
+            <li>Enter the URL with the item's ID: <code>http://127.0.0.1:8000/api/menu-items/1</code></li>
+            <li>Click <strong>Send</strong></li>
+        </ol>
+        
+        <p>You'll receive a <strong>204 No Content</strong> status code, indicating successful deletion.</p>
+    </div>
+    
+    <h2>Testing Authenticated Endpoints</h2>
+    
+    <p>If you have secured your API with the token authorization scheme, you will need to enter the bearer token in the Auth tab.</p>
+    
+    <div class="step-box">
+        <h3 style="margin-top: 0;">Obtaining the Token</h3>
+        
+        <ol>
+            <li>First, obtain the token from the <code>api-token-auth/</code> endpoint</li>
+            <li>Send a POST request to: <code>http://127.0.0.1:8000/api-token-auth/</code></li>
+            <li>In the Body tab (JSON format), provide credentials:</li>
+        </ol>
+        
+        <pre>{
+    "username": "your_username",
+    "password": "your_password"
+}</pre>
+        
+        <p>You'll receive a response with the token:</p>
+        
+        <pre>{
+    "token": "9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b"
+}</pre>
+    </div>
+    
+    <div class="step-box">
+        <h3 style="margin-top: 0;">Using the Token</h3>
+        
+        <p>Use the token for all subsequent operations:</p>
+        
+        <ol>
+            <li>In any request, go to the <strong>Auth</strong> tab</li>
+            <li>Select <strong>Bearer Token</strong> from the dropdown</li>
+            <li>Paste your token in the token field</li>
+            <li>Send your request</li>
+        </ol>
+        
+        <div class="tip-box">
+            <strong>Alternative Method:</strong> You can also add the token in the Headers tab:
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li><strong>Header Name:</strong> Authorization</li>
+                <li><strong>Header Value:</strong> Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Additional Testing Tips</h2>
+    
+    <div class="info-box">
+        <h3>Common HTTP Status Codes</h3>
+        <ul>
+            <li><strong>200 OK:</strong> Successful GET, PUT, or PATCH request</li>
+            <li><strong>201 Created:</strong> Successful POST request</li>
+            <li><strong>204 No Content:</strong> Successful DELETE request</li>
+            <li><strong>400 Bad Request:</strong> Invalid request data</li>
+            <li><strong>401 Unauthorized:</strong> Missing or invalid authentication</li>
+            <li><strong>403 Forbidden:</strong> Insufficient permissions</li>
+            <li><strong>404 Not Found:</strong> Resource doesn't exist</li>
+            <li><strong>500 Internal Server Error:</strong> Server-side error</li>
+        </ul>
+    </div>
+    
+    <div class="info-box">
+        <h3>Organizing Requests</h3>
+        <p>In Insomnia, you can:</p>
+        <ul>
+            <li>Create collections to group related requests</li>
+            <li>Add folders within collections for better organization</li>
+            <li>Rename requests with descriptive names</li>
+            <li>Save common headers and authentication as environment variables</li>
+        </ul>
+    </div>
+    
+    <div class="conclusion-box">
+        <h2 style="margin-top: 0; border: none; padding: 0;">Conclusion</h2>
+        <p style="margin-bottom: 0;">In this reading, you learned how to use Insomnia to test your DRF API. You explored how to test GET, POST, PUT, and DELETE requests, and how to work with authenticated endpoints using bearer tokens.</p>
+    </div>
+</body>
+</html>

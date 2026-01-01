@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'restaurant',
+    'restaurant', # step 1 django setup
+    'rest_framework', # step 5 Set up the menu API - Step 2 add rest_framework to installed apps
+    "rest_framework.authtoken", # step 7 add registration page - Step 2 add djoser to installed apps
+    'djoser', # step 7 add registration page - Step 2 add djoser to installed apps
 ]
 
 MIDDLEWARE = [
@@ -52,6 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'littlelemon.urls'
 
+# Step 2 Django Static Routes - Step 2 Include templates directory
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -74,10 +78,19 @@ WSGI_APPLICATION = 'littlelemon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Step 3 Django database configuration 
+# Step 4 configure MySQL database connection
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'littlelemon',
+        'USER': 'devuser',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 
+        }
     }
 }
 
@@ -118,3 +131,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# step 7 add registration page - Step 3 add djoser to installed apps
+#add the following line
+DJOSER={"USER_ID_FIELD":"username"}
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# step 7 add registration page - Step 4 REST_FRAMEWORK
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+        # "rest_framework_xml.renderers.XMLRenderer",
+    ],
+}

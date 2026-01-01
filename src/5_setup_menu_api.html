@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Exercise - Set up the Menu API | LittleLemon</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+        }
+        .step {
+            background-color: white;
+            padding: 24px;
+            margin: 24px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .step-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+        code, pre {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .note {
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .tip {
+            color: #d35400;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Exercise: Set up the Menu API</h1>
+
+<h2>Overview</h2>
+<p>In previous exercises, you have already set up a <strong>LittleLemon</strong> project that includes the <strong>Restaurant</strong> app.<br>
+You have also declared the <code>Menu</code> and <code>Booking</code> models and migrated them to the MySQL database.</p>
+
+<p>In this exercise, you will build a REST API to perform <strong>CREATE, READ, UPDATE and DELETE</strong> operations on the <strong>Menu</strong> model.</p>
+
+<h2>Scenario</h2>
+<p>You will use <strong>Django REST Framework</strong> to build the APIs in the <code>restaurant</code> app.<br>
+You will also create the views using DRF's generic views.</p>
+
+<div class="step">
+    <h3><span class="step-number">1</span> Install Django REST Framework</h3>
+    <p>Install the <code>rest_framework</code> package with PIP while remaining in the Django virtual environment directory.</p>
+    <pre><code>pip install djangorestframework</code></pre>
+    <p>Open the command prompt in the <code>LittleLemon</code> directory and start VS Code.</p>
+</div>
+
+<div class="step">
+    <h3><span class="step-number">2</span> Add rest_framework to INSTALLED_APPS</h3>
+    <p>Open <code>settings.py</code> file and add <code>'rest_framework'</code> to the project's <code>INSTALLED_APPS</code> list:</p>
+    <pre><code>INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'restaurant',
+    ...
+]</code></pre>
+</div>
+
+<div class="step">
+    <h3><span class="step-number">3</span> Create MenuSerializer</h3>
+    <p>In the <code>restaurant</code> app folder, create a new file called <code>serializers.py</code> and declare the <code>MenuSerializer</code> class:</p>
+    <pre><code><span class="comment"># restaurant/serializers.py</span>
+from rest_framework import serializers
+from .models import MenuItem
+
+class MenuItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MenuItem
+        fields = '__all__'          # or list specific fields: ['id', 'title', 'price', 'inventory']
+</code></pre>
+</div>
+
+<div class="step">
+    <h3><span class="step-number">4</span> Create API Views</h3>
+    <p>Open <code>restaurant/views.py</code> and add the following classes:</p>
+    <pre><code>from rest_framework import generics
+from .models import MenuItem
+from .serializers import MenuItemSerializer
+
+class MenuItemsView(generics.ListCreateAPIView):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer
+
+class SingleMenuItemView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer</code></pre>
+</div>
+
+<div class="step">
+    <h3><span class="step-number">5</span> Set up URL routing</h3>
+    <p><strong>restaurant/urls.py</strong></p>
+    <pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('menu/', views.MenuItemsView.as_view(), name='menu-list'),
+    path('menu/<int:pk>/', views.SingleMenuItemView.as_view(), name='menu-detail'),
+]</code></pre>
+
+    <p><strong>project urls.py</strong> (main LittleLemon/urls.py)</p>
+    <pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('restaurant/', include('restaurant.urls')),
+]</code></pre>
+</div>
+
+<div class="step">
+    <h3><span class="step-number">6</span> Test the API</h3>
+    <ol>
+        <li>Run the development server:
+            <pre><code>python manage.py runserver</code></pre>
+        </li>
+        <li>Open in browser:
+            <strong>http://localhost:8000/restaurant/menu/</strong>
+        </li>
+    </ol>
+    <p class="note">You should see the browsable API interface.<br>
+    You can now:</p>
+    <ul>
+        <li><strong>GET</strong> – list all menu items</li>
+        <li><strong>POST</strong> – create new menu item</li>
+        <li><strong>GET / PUT / PATCH / DELETE</strong> on <code>/restaurant/menu/1/</code> etc.</li>
+    </ul>
+</div>
+
+<div class="note">
+    <strong>Success!</strong><br>
+    You have now created a complete CRUD REST API for the Menu using Django REST Framework generic views!
+</div>
+
+</body>
+</html>

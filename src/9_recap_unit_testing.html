@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Recap: Unit Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #bdc3c7;
+        }
+        code {
+            font-family: Consolas, Monaco, monospace;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+        @media print {
+            body { background-color: white; margin: 20px; }
+            pre { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Recap: Unit Testing</h1>
+    
+    <h2>Introduction</h2>
+    <p>Testing is a vital part of the software development process.</p>
+    <p>Before pushing the application to the production stage, validating it against the expected output is essential.</p>
+    <p>Before you commit any change to the source code, it must be verified that your changes don't affect the application's behavior.</p>
+    <p>A developer is always well advised to adopt an approach of test-driven development.</p>
+    <p>Django's testing framework provides the API to test your code and check if it is doing as expected.</p>
+    <p>The test framework of Django is built upon the unit test package bundled with Python's standard library.</p>
+    
+    <h2>Prerequisites</h2>
+    <ul>
+        <li>Install Django and Django REST Framework in the current Python environment</li>
+        <li>Create a Django project named LittleLemon with django-admin command</li>
+        <li>Inside it, create a Django app with the name LittleLemonAPI</li>
+        <li>Add the 'rest_framework' and 'LittleLemonAPI' to the INSTALLED_APPS list</li>
+        <li>Run the migrate command</li>
+    </ul>
+    
+    <h2>Model</h2>
+    <p>Define the MenuItem model in LittleLemonAPI/models.py file using the following code:</p>
+    <pre><code>from django.db import models  
+
+# Create your models here.  
+
+class MenuItem(models.Model):  
+    title = models.CharField(max_length=255)  
+    price = models.DecimalField(max_digits=6, decimal_places=2)  
+    inventory = models.SmallIntegerField()  
+
+    def get_item(self):  
+        return f'{self.title} : {str(self.price)}'</code></pre>
+    
+    <h2>Serializer</h2>
+    <p>Serialization is crucial in building an API with the Django REST Framework. It serializes the model instances into JSON format.</p>
+    <p>Use the ModelSerializer class to declare a serializer for the MenuItem model. Add the following code in the LittleLemonAPI/serializers.py file.</p>
+    <pre><code>from rest_framework import serializers 
+from .models import MenuItem  
+
+class MenuItemSerializer(serializers.ModelSerializer): 
+    class Meta: 
+        model = MenuItem 
+        fields = ['id','title','price','inventory']</code></pre>
+    
+    <h2>Views</h2>
+    <p>The next step is to provide the app with the view definitions. DRF has generic view classes. The ListCreateAPIView handles the POST and GET methods to add a model instance and retrieve all instances. Use it as a base for MenuItemsView class.</p>
+    <p>LittleLemonAPI/views.py</p>
+    <pre><code>from rest_framework import generics 
+from .models import MenuItem 
+from .serializers import MenuItemSerializer 
+
+# Create your views here. 
+class MenuItemsView(generics.ListCreateAPIView): 
+    queryset = MenuItem.objects.all() 
+    serializer_class = MenuItemSerializer</code></pre>
+    
+    <footer>
+        <p>Generated on December 31, 2025</p>
+    </footer>
+</body>
+</html>

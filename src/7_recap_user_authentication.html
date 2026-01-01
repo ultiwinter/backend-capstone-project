@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recap: User Authentication – Django REST Framework</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 35px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+        h3 {
+            margin-top: 25px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        code, pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            padding: 2px 5px;
+        }
+        pre {
+            padding: 12px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .note {
+            background-color: #eef6ff;
+            border-left: 4px solid #2a7ae2;
+            padding: 10px 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #f0ad4e;
+            padding: 10px 15px;
+            margin: 20px 0;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Recap: User Authentication</h1>
+
+<h2>Introduction</h2>
+<p>
+When a REST API exposes backend models to the external world, access must be authenticated.
+</p>
+<p>
+The Django framework provides a basic session-based authentication mechanism that relies
+on middleware components to authenticate requests.
+</p>
+<p>
+Django REST Framework (DRF) offers additional authentication schemes beyond session-based
+authentication. Among these, <strong>token-based authentication</strong> is best suited
+for APIs consumed by desktop and mobile clients.
+</p>
+
+<h2>Prerequisites</h2>
+<ul>
+    <li>A Python virtual environment with Django and Django REST Framework installed</li>
+    <li>A Django project named <strong>LittleLemon</strong></li>
+    <li>A Django app named <strong>LittleLemonAPI</strong></li>
+</ul>
+
+<h2>Enable Token Authentication</h2>
+<p>
+Add the following apps to <code>INSTALLED_APPS</code> in <code>settings.py</code>:
+</p>
+<ul>
+    <li><code>rest_framework</code></li>
+    <li><code>LittleLemonAPI</code></li>
+    <li><code>rest_framework.authtoken</code></li>
+</ul>
+
+<p>Run the migration command:</p>
+<pre><code>python manage.py migrate</code></pre>
+
+<p>
+Visit the Django admin panel at:
+</p>
+<pre><code>http://localhost:8000/admin</code></pre>
+
+<p>
+Log in using superuser credentials. The admin dashboard will now include an
+<strong>AUTH TOKEN</strong> section.
+</p>
+
+<h2>Model</h2>
+<p>
+Ensure the <code>MenuItem</code> model is defined in the app’s <code>models.py</code> file:
+</p>
+
+<pre><code>from django.db import models
+
+class MenuItem(models.Model):
+    title = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    inventory = models.SmallIntegerField()
+
+    def get_item(self):
+        return f'{self.title} : {str(self.price)}'</code></pre>
+
+<p>
+Run <code>makemigrations</code> and <code>migrate</code> to create the database tables.
+</p>
+
+<h2>Serializers</h2>
+<p>
+Create a <code>serializers.py</code> file and define a serializer to convert model
+instances into JSON:
+</p>
+
+<pre><code>from rest_framework import serializers
+from .models import MenuItem
+
+class MenuItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MenuItem
+        fields = '__all__'</code></pre>
+
+<h2>Views</h2>
+<p>
+Use generic class-based views to handle HTTP requests.
+</p>
+<ul>
+    <li><code>ListCreateView</code> for GET and POST</li>
+    <li>A separate view for GET, PUT, and DELETE on single items</li>
+</ul>
+
+<h2>URLs</h2>
+<p>
+Define app-level URL routes:
+</p>
+
+<pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('menu-items/', views.MenuItemsView.as_view()),
+    path('menu-items/&lt;int:pk&gt;', views.SingleMenuItemView.as_view()),
+]</code></pre>
+
+<p>
+Wire the app URLs into the project’s URL configuration:
+</p>
+
+<pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('LittleLemonAPI.urls')),
+]</code></pre>
+
+<h2>Authentication</h2>
+<p>
+Initially, the menu endpoints are publicly accessible.
+</p>
+<p>
+To protect a view, apply the <code>IsAuthenticated</code> permission:
+</p>
+
+<pre><code>from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def msg(request):
+    return Response({"message": "This view is protected"})</code></pre>
+
+<p>
+Add the route for the protected view:
+</p>
+
+<pre><code>urlpatterns = [
+    path('menu-items/', views.MenuItemsView.as_view()),
+    path('menu-items/&lt;int:pk&gt;', views.SingleMenuItemView.as_view()),
+    path('message/', views.msg),
+]</code></pre>
+
+<div class="warning">
+If you send a GET request to <code>/api/message/</code> without authentication,
+you will receive a <strong>401 Unauthorized</strong> response.
+</div>
+
+<h2>Obtaining an Authentication Token</h2>
+<p>
+Retrieve a token from the Django admin panel under the <strong>Tokens</strong> section,
+or enable token retrieval via API.
+</p>
+
+<pre><code>from rest_framework.authtoken.views import obtain_auth_token
+
+urlpatterns = [
+    path('menu-items/', views.MenuItemsView.as_view()),
+    path('menu-items/&lt;int:pk&gt;', views.SingleMenuItemView.as_view()),
+    path('message/', views.msg),
+    path('api-token-auth/', obtain_auth_token),
+]</code></pre>
+
+<p>
+Send a POST request to <code>/api/api-token-auth/</code> with username and password
+to receive a token.
+</p>
+
+<h2>Enforcing Authentication on Views</h2>
+<p>
+You can protect class-based views by adding permission classes:
+</p>
+
+<pre><code>from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+
+class MenuItemsView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer</code></pre>
+
+<p>
+The menu items will only be visible after providing a valid authentication token.
+</p>
+
+<h2>Conclusion</h2>
+<p>
+In this recap, you learned how to enable and apply token-based authentication in the
+<strong>LittleLemonAPI</strong> using Django REST Framework.
+</p>
+
+<footer>
+    Django REST Framework – User Authentication Recap
+</footer>
+
+</body>
+</html>
