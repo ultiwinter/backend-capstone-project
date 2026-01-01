@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.authtoken.views import obtain_auth_token # step 8 Securing the table booking API - Step 4 import obtain_auth_token
+
 from rest_framework import routers # step 6 Set up table booking API - Step 4 create router for BookingViewSet
 from restaurant import views # step 6 Set up table booking API - Step 4 create router for BookingViewSet
 
@@ -30,5 +32,5 @@ urlpatterns = [
     path('booking/', include(router.urls)), # step 6 Set up table booking API - Step 4 create router for BookingViewSet
     path('auth/', include('djoser.urls')), # step 7 add registration page - Step 5 Enable djoser endpoints
     path('auth/', include('djoser.urls.authtoken')), # step 7 add registration page - Step 5 Enable djoser endpoints
-    
+    path('api-token-auth/', obtain_auth_token), # step 8 Securing the table booking API - Step 4 import obtain_auth_token
 ]

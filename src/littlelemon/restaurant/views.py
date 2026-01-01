@@ -18,7 +18,6 @@ def index(request):
         }
     return render(request, 'index1.html', context)
 
-
 class MenuItemsView(ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
