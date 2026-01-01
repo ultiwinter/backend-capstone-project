@@ -4,7 +4,7 @@ This repository contains the backend implementation for **Little Lemon Restauran
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 Little Lemon is a fictional, family-owned Mediterranean restaurant. This project provides:
 
@@ -17,7 +17,7 @@ The project is designed to showcase **real-world backend development practices**
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 - **Python 3.12**
 - **Django 6.0**
@@ -28,7 +28,7 @@ The project is designed to showcase **real-world backend development practices**
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 littlelemon/
@@ -56,7 +56,7 @@ littlelemon/
 
 ---
 
-## 🌐 Website Pages
+## Website Pages
 
 | Page | Description |
 |----|----|
@@ -69,7 +69,7 @@ All pages are rendered using Django templates and share a common layout via `bas
 
 ---
 
-## 🔐 API Features
+## API Features
 
 ### Authentication
 - Token-based authentication using DRF
@@ -88,14 +88,14 @@ All pages are rendered using Django templates and share a common layout via `bas
 
 ---
 
-## 🧪 Testing
+## Testing
 
-- Django unit tests supported via `manage.py test`
+- Django unit tests supported via `python manage.py test`
 - API endpoints testable using **Insomnia** or **Postman**
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the repository
 ```bash
@@ -131,7 +131,7 @@ python manage.py runserver
 
 ---
 
-## 🧠 Design Decisions
+## Design Decisions
 
 - Separation of **HTML views** and **API endpoints**
 - Reusable template layout using `base.html`
@@ -141,7 +141,7 @@ python manage.py runserver
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 - Connect booking page to live booking API
 - Add Django Forms for reservations
@@ -151,16 +151,16 @@ python manage.py runserver
 
 ---
 
-## 👤 Author
+## Author
 
 **Ahmed Sheta**  
-Backend Developer | AI & Data Engineering Background
+AI Software Engineer | Backend & Data Engineering Background
 
 This project is part of my professional portfolio and demonstrates my ability to design, secure, and structure backend systems using Django and DRF.
 
 ---
 
-## 📄 License
+## License
 
-This project is for educational and portfolio purposes.
+This project is for educational and portfolio purposes via Apache 2.0 License.
 
