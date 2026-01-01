@@ -51,7 +51,6 @@ littlelemon/
 │   └── tests.py
 │
 ├── manage.py
-└── requirements.txt
 ```
 
 ---
